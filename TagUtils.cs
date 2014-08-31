@@ -25,7 +25,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using NanoByte.Common.Info;
 using NanoByte.Common.Utils;
 
 namespace NanoByte.LightTag
@@ -35,12 +34,12 @@ namespace NanoByte.LightTag
         public static void WriteTags(this FileInfo file, IEnumerable<string> tags)
         {
             string tagsData = StringUtils.Join(Environment.NewLine, tags);
-            FileUtils.WriteExtendedMetadata(file.FullName, AppInfo.Current.Name, Encoding.UTF8.GetBytes(tagsData));
+            FileUtils.WriteExtendedMetadata(file.FullName, "LightTag", Encoding.UTF8.GetBytes(tagsData));
         }
 
         public static IEnumerable<string> ReadTags(this FileInfo file)
         {
-            var data = FileUtils.ReadExtendedMetadata(file.FullName, AppInfo.Current.Name);
+            var data = FileUtils.ReadExtendedMetadata(file.FullName, "LightTag");
             if (data == null) return Enumerable.Empty<string>();
 
             string tagData = Encoding.UTF8.GetString(data);

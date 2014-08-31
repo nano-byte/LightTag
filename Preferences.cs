@@ -24,7 +24,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NanoByte.Common.Collections;
-using NanoByte.Common.Info;
 using NanoByte.Common.Storage;
 
 namespace NanoByte.LightTag
@@ -35,12 +34,12 @@ namespace NanoByte.LightTag
         {
             get
             {
-                string configPath = Locations.GetLoadConfigPaths(AppInfo.Current.Name, true, "tags.xml").FirstOrDefault();
+                string configPath = Locations.GetLoadConfigPaths("LightTag", true, "tags.xml").FirstOrDefault();
                 return (configPath == null) ? new NamedCollection<Tag>() : XmlStorage.LoadXml<NamedCollection<Tag>>(configPath);
             }
             set
             {
-                string configPath = Locations.GetSaveConfigPath(AppInfo.Current.Name, true, "tags.xml");
+                string configPath = Locations.GetSaveConfigPath("LightTag", true, "tags.xml");
                 value.SaveXml(configPath);
             }
         }
@@ -49,12 +48,12 @@ namespace NanoByte.LightTag
         {
             get
             {
-                string configPath = Locations.GetLoadConfigPaths(AppInfo.Current.Name, true, "search-directory.txt").FirstOrDefault();
+                string configPath = Locations.GetLoadConfigPaths("LightTag", true, "search-directory.txt").FirstOrDefault();
                 return (configPath == null) ? null : File.ReadAllText(configPath, Encoding.UTF8);
             }
             set
             {
-                string configPath = Locations.GetSaveConfigPath(AppInfo.Current.Name, true, "search-directory.txt");
+                string configPath = Locations.GetSaveConfigPath("LightTag", true, "search-directory.txt");
                 File.WriteAllText(configPath, value, Encoding.UTF8);
             }
         }
