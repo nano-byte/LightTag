@@ -38,13 +38,12 @@ namespace NanoByte.LightTag
         public Color HighlightColor { get; set; }
 
         [XmlAttribute, Browsable(false)]
-        public int R { get { return HighlightColor.R; } set { HighlightColor = Color.FromArgb(value, HighlightColor.G, HighlightColor.B); } }
+        public string Color { get { return ColorTranslator.ToHtml(HighlightColor); } set { HighlightColor = ColorTranslator.FromHtml(value); } }
 
-        [XmlAttribute, Browsable(false)]
-        public int G { get { return HighlightColor.R; } set { HighlightColor = Color.FromArgb(HighlightColor.R, value, HighlightColor.B); } }
-
-        [XmlAttribute, Browsable(false)]
-        public int B { get { return HighlightColor.R; } set { HighlightColor = Color.FromArgb(HighlightColor.R, HighlightColor.G, value); } }
+        public override string ToString()
+        {
+            return Name;
+        }
 
         public int CompareTo(Tag other)
         {
