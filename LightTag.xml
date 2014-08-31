@@ -10,8 +10,8 @@
 		<command name="run" path="LightTag.exe">
 			<runner interface="http://0install.de/feeds/cli/cli.xml" />
 		</command>
-		<implementation version="0.1.0-post-1" stability="testing" id="local-release" local-path="bin/Release" />
-		<implementation version="0.1.0-post-2" stability="developer" id="local-debug" local-path="bin/Debug" />
+		<implementation version="0.1.1-post-1" stability="testing" id="local-release" local-path="bin/Release" />
+		<implementation version="0.1.1-post-2" stability="developer" id="local-debug" local-path="bin/Debug" />
 	</group>
 	<capabilities xmlns="http://0install.de/schema/desktop-integration/capabilities">
 		<context-menu id="Tagging" target="all">
