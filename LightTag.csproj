@@ -78,6 +78,12 @@
     <Compile Include="TaggingForm.Designer.cs">
       <DependentUpon>TaggingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TagSelectionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TagSelectionControl.Designer.cs">
+      <DependentUpon>TagSelectionControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="TagUtils.cs" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -87,6 +93,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TaggingForm.resx">
       <DependentUpon>TaggingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TagSelectionControl.resx">
+      <DependentUpon>TagSelectionControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

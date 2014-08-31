@@ -32,7 +32,9 @@
             this.textFolder = new NanoByte.Common.Controls.HintTextBox();
             this.buttonBrowseFolder = new System.Windows.Forms.Button();
             this.groupTags = new System.Windows.Forms.GroupBox();
+            this.tags = new NanoByte.LightTag.TagSelectionControl();
             this.buttonSearch = new System.Windows.Forms.Button();
+            this.groupTags.SuspendLayout();
             this.SuspendLayout();
             // 
             // folderBrowserDialog
@@ -48,7 +50,7 @@
             this.textFolder.Location = new System.Drawing.Point(12, 12);
             this.textFolder.Name = "textFolder";
             this.textFolder.Size = new System.Drawing.Size(253, 20);
-            this.textFolder.TabIndex = 3;
+            this.textFolder.TabIndex = 2;
             // 
             // buttonBrowseFolder
             // 
@@ -56,7 +58,7 @@
             this.buttonBrowseFolder.Location = new System.Drawing.Point(271, 12);
             this.buttonBrowseFolder.Name = "buttonBrowseFolder";
             this.buttonBrowseFolder.Size = new System.Drawing.Size(25, 23);
-            this.buttonBrowseFolder.TabIndex = 4;
+            this.buttonBrowseFolder.TabIndex = 3;
             this.buttonBrowseFolder.Text = "...";
             this.buttonBrowseFolder.UseVisualStyleBackColor = true;
             this.buttonBrowseFolder.Click += new System.EventHandler(this.buttonBrowseFolder_Click);
@@ -66,6 +68,7 @@
             this.groupTags.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupTags.Controls.Add(this.tags);
             this.groupTags.Location = new System.Drawing.Point(12, 41);
             this.groupTags.Name = "groupTags";
             this.groupTags.Size = new System.Drawing.Size(284, 303);
@@ -73,6 +76,14 @@
             this.groupTags.TabStop = false;
             this.groupTags.Tag = "";
             this.groupTags.Text = "Tags";
+            // 
+            // tags
+            // 
+            this.tags.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tags.Location = new System.Drawing.Point(3, 16);
+            this.tags.Name = "tags";
+            this.tags.Size = new System.Drawing.Size(278, 284);
+            this.tags.TabIndex = 5;
             // 
             // buttonSearch
             // 
@@ -102,6 +113,7 @@
             this.Text = "LightTag - Search";
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.SearchForm_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.SearchForm_DragEnter);
+            this.groupTags.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -114,6 +126,7 @@
         private System.Windows.Forms.Button buttonBrowseFolder;
         private System.Windows.Forms.GroupBox groupTags;
         private System.Windows.Forms.Button buttonSearch;
+        private TagSelectionControl tags;
     }
 }
 

@@ -22,38 +22,20 @@
 
 using System;
 using System.ComponentModel;
-using System.Drawing;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using NanoByte.Common;
-using NanoByte.Common.Controls;
 using NanoByte.Common.Utils;
 
 namespace NanoByte.LightTag
 {
     public partial class TaggingForm : Form
     {
-        #region Controls
-        // Don't use WinForms designer for this, since it doesn't understand generics
-        private readonly FilteredTreeView<Tag> treeTags = new FilteredTreeView<Tag>
-        {
-            Name = "treeTags",
-            Dock = DockStyle.Fill,
-            TabIndex = 0,
-            Separator = '/',
-            CheckBoxes = true
-        };
-        #endregion
-
         public TaggingForm(string[] paths)
         {
             InitializeComponent();
-
-            treeTags.Nodes = Preferences.KnownTags;
-            treeTags.CheckedEntriesChanged += treeTags_CheckedEntriesChanged;
-            treeTags.SelectedEntryChanged += treeTags_SelectedEntryChanged;
-            groupTags.Controls.Add(treeTags);
 
             AddFiles(paths);
         }
@@ -79,26 +61,15 @@ namespace NanoByte.LightTag
             {
                 var files = ArgumentUtils.GetFiles(paths);
 
-                listBoxFiles.BeginUpdate();
+                listFiles.BeginUpdate();
                 foreach (var file in files)
                 {
-                    listBoxFiles.Items.Add(file);
+                    listFiles.Items.Add(new ListViewItem(file.Name) {Tag = file});
                     foreach (string tagName in file.ReadTags())
-                    {
-                        Tag tag;
-                        if (treeTags.Nodes.Contains(tagName))
-                            tag = treeTags.Nodes[tagName];
-                        else
-                        {
-                            tag = new Tag {Name = tagName, HighlightColor = Color.Blue};
-                            treeTags.Nodes.Add(tag);
-                        }
-
-                        treeTags.CheckedEntries.Add(tag);
-                    }
+                        tags.TreeView.CheckedEntries.Add(tags[tagName]);
                 }
-                listBoxFiles.EndUpdate();
-                treeTags.UpdateList();
+                listFiles.EndUpdate();
+                tags.TreeView.UpdateList();
             }
                 #region Error handling
             catch (IOException ex)
@@ -116,12 +87,26 @@ namespace NanoByte.LightTag
             #endregion
         }
 
-        private void treeTags_CheckedEntriesChanged(object sender, EventArgs e)
+        private void listFiles_DoubleClick(object sender, EventArgs e)
+        {
+            if (listFiles.SelectedItems.Count == 0) return;
+            Process.Start(((FileInfo)listFiles.SelectedItems[0].Tag).FullName);
+        }
+
+        private void menuFilesRemove_Click(object sender, EventArgs e)
+        {
+            listFiles.BeginUpdate();
+            foreach (ListViewItem item in listFiles.SelectedItems)
+                listFiles.Items.Remove(item);
+            listFiles.EndUpdate();
+        }
+
+        private void buttonApply_Click(object sender, EventArgs e)
         {
             try
             {
-                foreach (FileInfo file in listBoxFiles.Items)
-                    file.WriteTags(treeTags.CheckedEntries.Select(x => x.Name));
+                foreach (ListViewItem item in listFiles.Items)
+                    ((FileInfo)item.Tag).WriteTags(tags.TreeView.CheckedEntries.Select(x => x.Name));
             }
                 #region Error handling
             catch (IOException ex)
@@ -137,26 +122,11 @@ namespace NanoByte.LightTag
                 Msg.Inform(this, ex.Message, MsgSeverity.Error);
             }
             #endregion
-        }
 
-        private void treeTags_SelectedEntryChanged(object sender, EventArgs e)
-        {
-            buttonDeleteTag.Enabled = (treeTags.SelectedEntry != null);
-        }
+            listFiles.Items.Clear();
 
-        private void buttonAddTag_Click(object sender, EventArgs e)
-        {
-            string tagName = InputBox.Show(this, "Add tag", "New tag name (use slashes for groups):");
-            if (string.IsNullOrEmpty(tagName) || treeTags.Nodes.Contains(tagName)) return;
-
-            treeTags.Nodes.Add(new Tag {Name = tagName, HighlightColor = Color.Blue});
-            Preferences.KnownTags = treeTags.Nodes;
-        }
-
-        private void buttonDeleteTag_Click(object sender, EventArgs e)
-        {
-            treeTags.Nodes.Remove(treeTags.SelectedEntry);
-            Preferences.KnownTags = treeTags.Nodes;
+            tags.TreeView.CheckedEntries.Clear();
+            tags.TreeView.UpdateList();
         }
     }
 }

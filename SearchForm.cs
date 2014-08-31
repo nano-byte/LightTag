@@ -26,7 +26,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using NanoByte.Common;
-using NanoByte.Common.Controls;
 using NanoByte.Common.Tasks;
 using NanoByte.Common.Utils;
 
@@ -34,25 +33,10 @@ namespace NanoByte.LightTag
 {
     public partial class SearchForm : Form
     {
-        #region Controls
-        // Don't use WinForms designer for this, since it doesn't understand generics
-        private readonly FilteredTreeView<Tag> treeTags = new FilteredTreeView<Tag>
-        {
-            Name = "treeTags",
-            Dock = DockStyle.Fill,
-            TabIndex = 0,
-            Separator = '/',
-            CheckBoxes = true
-        };
-        #endregion
-
         public SearchForm()
         {
             InitializeComponent();
-
-            treeTags.Nodes = Preferences.KnownTags;
-            treeTags.CheckedEntriesChanged += treeTags_CheckedEntriesChanged;
-            groupTags.Controls.Add(treeTags);
+            tags.TreeView.CheckedEntriesChanged += tags_TreeView_CheckedEntriesChanged;
 
             textFolder.Text = Preferences.LastSearchDirectory;
         }
@@ -82,9 +66,9 @@ namespace NanoByte.LightTag
             textFolder.Text = folderBrowserDialog.SelectedPath;
         }
 
-        private void treeTags_CheckedEntriesChanged(object sender, EventArgs e)
+        private void tags_TreeView_CheckedEntriesChanged(object sender, EventArgs e)
         {
-            buttonSearch.Enabled = (treeTags.CheckedEntries.Count != 0);
+            buttonSearch.Enabled = (tags.TreeView.CheckedEntries.Count != 0);
         }
 
         private void buttonSearch_Click(object sender, EventArgs e)
@@ -110,7 +94,7 @@ namespace NanoByte.LightTag
             Preferences.LastSearchDirectory = searchDirectory.FullName;
 
             var resultSet = new ResultSet();
-            var checkedTags = treeTags.CheckedEntries.Select(x => x.Name).ToList();
+            var checkedTags = tags.TreeView.CheckedEntries.Select(x => x.Name).ToList();
             try
             {
                 var handler = new GuiTaskHandler(this);
