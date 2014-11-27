@@ -25,7 +25,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using NanoByte.Common.Utils;
+using NanoByte.Common;
+using NanoByte.Common.Storage;
 
 namespace NanoByte.LightTag
 {

@@ -26,8 +26,8 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using NanoByte.Common;
+using NanoByte.Common.Storage;
 using NanoByte.Common.Tasks;
-using NanoByte.Common.Utils;
 
 namespace NanoByte.LightTag
 {

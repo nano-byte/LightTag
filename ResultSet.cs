@@ -26,8 +26,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using IWshRuntimeLibrary;
+using NanoByte.Common.Native;
 using NanoByte.Common.Storage;
-using NanoByte.Common.Utils;
 
 namespace NanoByte.LightTag
 {
