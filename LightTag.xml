@@ -5,7 +5,7 @@
 	<summary xml:lang="de">ein leichtgewichtiges Datei-Tagging Tool für Windows</summary>
 	<homepage>http://www.nanobyte.de/</homepage>
 	<category>Utility</category>
-	<feed-for interface="http://0install.de/feeds/LightTag.xml" />
+	<feed-for interface="http://www.nanobyte.de/feeds/LightTag.xml" />
 	<group license="MIT/X Consortium License">
 		<command name="run" path="LightTag.exe">
 			<runner interface="http://0install.de/feeds/cli/cli.xml" />
