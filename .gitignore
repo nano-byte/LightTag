@@ -1,12 +1,14 @@
-bin/
-obj/
-/packages/*/
-/_ReSharper*/
-*.bak
-*.cache
-*.pidb
-*.suo
 *.user
-*.userprefs
-*.*proj.DotSettings
-*.resources
+*.bak
+
+# Caches
+/src/.vs/
+/src/.idea/
+/src/_ReSharper.*/
+/src/obj/
+/src/bin/
+
+# Output
+/artifacts/
+/feed/*.xml
+/feed/*.zip

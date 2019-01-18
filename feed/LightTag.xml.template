@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<interface xmlns="http://zero-install.sourceforge.net/2004/injector/interface" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://zero-install.sourceforge.net/2004/injector/interface http://0install.de/schema/injector/interface/interface.xsd http://0install.de/schema/desktop-integration/capabilities http://0install.de/schema/desktop-integration/capabilities/capabilities.xsd">
+  <name>LightTag</name>
+  <summary xml:lang="en">a lightweight file tagging tool for Windows and Linux</summary>
+  <summary xml:lang="de">ein leichtgewichtiges Datei-Tagging Tool für Windows und Linux</summary>
+  <homepage>https://github.com/nano-byte/LightTag</homepage>
+  <category>Utility</category>
+
+  <feed-for interface="http://nano-byte.de/feeds/LightTag.xml"/>
+
+  <group license="MIT/X Consortium License">
+    <command name="run" path="LightTag.exe">
+      <runner interface="http://repo.roscidus.com/dotnet/clr" version="2.0.." command="run"/>
+    </command>
+    <implementation version="{version}" stability="{stability}" local-path="../artifacts/Release/net20">
+      <manifest-digest/>
+      <archive href="LightTag-{version}.zip" type="application/zip"/>
+    </implementation>
+  </group>
+
+  <capabilities xmlns="http://0install.de/schema/desktop-integration/capabilities">
+    <context-menu id="Tagging" target="all">
+      <verb args="&quot;%1&quot;" name="LightTag.Tagging">
+        <description xml:lang="en">Tagging</description>
+      </verb>
+    </context-menu>
+  </capabilities>
+</interface>
