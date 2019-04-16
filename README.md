@@ -1,15 +1,10 @@
 # LightTag
 
+[![Download](https://img.shields.io/badge/download-app-blue.svg)](http://nano-byte.de/feeds/LightTag.xml)
 [![Build status](https://img.shields.io/appveyor/ci/nano-byte/lighttag.svg)](https://ci.appveyor.com/project/nano-byte/lighttag)  
 A lightweight file tagging tool for Windows.
 
 Uses [NTFS Alternate Data Streams](http://blogs.technet.com/b/askcore/archive/2013/03/24/alternate-data-streams-in-ntfs.aspx) on Windows or Extended File Attributes on Linux.
-
-## Getting Started
-
-You can get LightTag on your computer:
-- [using Zero Install](https://0install.de/bootstrap/?name=LightTag&uri=http%3A%2F%2Fnano-byte.de%2Ffeeds%2FLightTag.xml&mode=integrate) (recommended)
-- [as a ZIP archive](https://github.com/nano-byte/LightTag/releases)
 
 ## Building
 
