@@ -1,6 +1,6 @@
 ﻿Param ($Version = "0.1.0-pre", [switch]$GitHubRelease)
 $ErrorActionPreference = "Stop"
-pushd $(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)
+pushd $PSScriptRoot
 
 # Ensure 0install is in the PATH
 if (!(Get-Command 0install -ErrorAction SilentlyContinue)) {

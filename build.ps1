@@ -1,6 +1,6 @@
 ﻿Param ($Version = "0.1.0-pre")
 $ErrorActionPreference = "Stop"
-pushd $(Split-Path -Path $MyInvocation.MyCommand.Definition -Parent)
+pushd $PSScriptRoot
 
 src\build.ps1 $Version
 feed\build.ps1 $Version
