@@ -10,7 +10,7 @@
 
   <group license="MIT/X Consortium License">
     <command name="run" path="LightTag.exe">
-      <runner interface="http://repo.roscidus.com/dotnet/clr" version="2.0.." command="run"/>
+      <runner interface="https://apps.0install.net/dotnet/clr.xml" version="2.0.." command="run"/>
     </command>
     <implementation version="{version}" stability="{stability}" local-path="../artifacts/Release/net20">
       <manifest-digest/>
