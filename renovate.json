@@ -1,5 +1,19 @@
 {
   "extends": [
     "config:base"
+  ],
+  "packageRules": [
+    {
+      "packagePatterns": ["Test", "Assert", "Mock", "[Xx]unit", "Moq"],
+      "groupName": "Testing deps",
+      "automerge": true,
+      "automergeType": "branch"
+    },
+    {
+      "packagePatterns": ["^NanoByte\\.Common"],
+      "groupName": "NanoByte.Common",
+      "automerge": true,
+      "automergeType": "branch"
+    }
   ]
 }
