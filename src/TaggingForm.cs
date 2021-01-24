@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using NanoByte.Common;
-using NanoByte.Common.Cli;
+using NanoByte.Common.Storage;
 
 namespace NanoByte.LightTag
 {
@@ -40,7 +40,7 @@ namespace NanoByte.LightTag
         {
             try
             {
-                var files = ArgumentUtils.GetFiles(paths);
+                var files = Paths.ResolveFiles(paths);
 
                 listFiles.BeginUpdate();
                 foreach (var file in files)

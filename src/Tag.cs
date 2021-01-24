@@ -10,7 +10,7 @@ using NanoByte.Common.Controls;
 
 namespace NanoByte.LightTag
 {
-    public class Tag : INamed<Tag>, IHighlightColor
+    public class Tag : INamed, IHighlightColor
     {
         [XmlAttribute]
         public string Name { get; set; }
@@ -19,7 +19,11 @@ namespace NanoByte.LightTag
         public Color HighlightColor { get; set; }
 
         [XmlAttribute, Browsable(false)]
-        public string Color { get { return ColorTranslator.ToHtml(HighlightColor); } set { HighlightColor = ColorTranslator.FromHtml(value); } }
+        public string Color
+        {
+            get => ColorTranslator.ToHtml(HighlightColor);
+            set => HighlightColor = ColorTranslator.FromHtml(value);
+        }
 
         public override string ToString()
         {
