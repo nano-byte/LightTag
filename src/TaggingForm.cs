@@ -52,7 +52,7 @@ namespace NanoByte.LightTag
                 listFiles.EndUpdate();
                 tags.TreeView.UpdateList();
             }
-                #region Error handling
+            #region Error handling
             catch (IOException ex)
             {
                 Msg.Inform(this, ex.Message, MsgSeverity.Error);

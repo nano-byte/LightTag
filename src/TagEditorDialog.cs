@@ -21,6 +21,7 @@ namespace NanoByte.LightTag
 
         private TagEditorDialog(Tag element)
         {
+            // ReSharper disable once VirtualMemberCallInConstructor
             Text = "Tag";
             FormBorderStyle = FormBorderStyle.Sizable;
 

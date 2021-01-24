@@ -33,14 +33,4 @@
     </COMReference>
   </ItemGroup>
 
-  <!-- Enable WinForms Designer support -->
-  <ItemGroup>
-    <Compile Update="SearchForm.cs" SubType="Form" />
-    <Compile Update="SearchForm.Designer.cs" DependentUpon="SearchForm.cs" />
-    <Compile Update="TaggingForm.cs" SubType="Form" />
-    <Compile Update="TaggingForm.Designer.cs" DependentUpon="TaggingForm.cs" />
-    <Compile Update="TagSelectionControl.cs" SubType="UserControl" />
-    <Compile Update="TagSelectionControl.Designer.cs" DependentUpon="TagSelectionControl.cs" />
-  </ItemGroup>
-
 </Project>
