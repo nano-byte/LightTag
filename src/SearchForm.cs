@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using NanoByte.Common;
+using NanoByte.Common.Controls;
 using NanoByte.Common.Storage;
 using NanoByte.Common.Tasks;
 
@@ -59,7 +59,7 @@ namespace NanoByte.LightTag
             {
                 searchDirectory = new DirectoryInfo(textFolder.Text);
             }
-                #region Error handling
+            #region Error handling
             catch (ArgumentException ex)
             {
                 Msg.Inform(this, ex.Message, MsgSeverity.Error);

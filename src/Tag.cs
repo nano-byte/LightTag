@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Serialization;
 using NanoByte.Common;
-using NanoByte.Common.Controls;
 
 namespace NanoByte.LightTag
 {
