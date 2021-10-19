@@ -3,10 +3,10 @@
 
 using System;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using IWshRuntimeLibrary;
+using NanoByte.Common;
 using NanoByte.Common.Native;
 using NanoByte.Common.Storage;
 
@@ -19,7 +19,7 @@ namespace NanoByte.LightTag
 
         public ResultSet()
         {
-            _directory = new DirectoryInfo(new[] {Locations.UserCacheDir, "LightTag", "Results", DateTime.Now.ToUnixTime().ToString(CultureInfo.InvariantCulture)}.Aggregate(Path.Combine));
+            _directory = new DirectoryInfo(new[] {Locations.UserCacheDir, "LightTag", "Results", ((UnixTime)DateTime.UtcNow).ToString()}.Aggregate(Path.Combine));
             _directory.Create();
         }
 
