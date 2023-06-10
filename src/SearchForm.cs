@@ -79,7 +79,7 @@ namespace NanoByte.LightTag
             try
             {
                 var handler = new DialogTaskHandler(this);
-                handler.RunTask(new SimpleTask("Searching", () =>
+                handler.RunTask(new ActionTask("Searching", () =>
                     searchDirectory.Walk(fileAction: file =>
                     {
                         var fileTags = file.ReadTags();
