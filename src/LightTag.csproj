@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NanoByte.Common.WinForms" Version="2.18.1" />
+    <PackageReference Include="NanoByte.Common.WinForms" Version="2.18.2" />
   </ItemGroup>
 
   <ItemGroup>
