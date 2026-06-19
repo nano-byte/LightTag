@@ -3,6 +3,7 @@
 
 using System.Drawing;
 using System.Windows.Forms;
+using NanoByte.Common;
 using NanoByte.Common.Controls;
 
 namespace NanoByte.LightTag

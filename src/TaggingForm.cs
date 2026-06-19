@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using NanoByte.Common;
 using NanoByte.Common.Controls;
 using NanoByte.Common.Storage;
 
