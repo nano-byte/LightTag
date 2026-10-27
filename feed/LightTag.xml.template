@@ -10,9 +10,9 @@
 
   <group license="MIT/X Consortium License">
     <command name="run" path="LightTag.exe">
-      <runner interface="https://apps.0install.net/dotnet/clr.xml" version="2.0.." command="run"/>
+      <runner interface="https://apps.0install.net/dotnet/clr.xml" version="4.5.." command="run-gui"/>
     </command>
-    <implementation version="{version}" stability="{stability}" local-path="../artifacts/Release/net20">
+    <implementation version="{version}" stability="{stability}" local-path="../artifacts/Release/net45">
       <manifest-digest/>
       <archive href="LightTag-{version}.zip" type="application/zip"/>
     </implementation>

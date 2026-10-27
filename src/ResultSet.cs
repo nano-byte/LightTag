@@ -4,40 +4,47 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using IWshRuntimeLibrary;
 using NanoByte.Common;
 using NanoByte.Common.Native;
 using NanoByte.Common.Storage;
+using Windows.Win32.System.Com;
+using Windows.Win32.UI.Shell;
 
-namespace NanoByte.LightTag
+namespace NanoByte.LightTag;
+
+public sealed class ResultSet
 {
-    public sealed class ResultSet
+    private readonly DirectoryInfo _directory = new(Path.Combine(Locations.UserCacheDir, "LightTag", "Results", ((UnixTime)DateTime.UtcNow).ToString()));
+
+    public ResultSet()
     {
-        private readonly WshShellClass _wshShell = new WshShellClass();
-        private readonly DirectoryInfo _directory;
+        _directory.Create();
+    }
 
-        public ResultSet()
+    public void Show()
+        => Process.Start(new ProcessStartInfo(_directory.FullName) {UseShellExecute = true});
+
+    public void Add(FileInfo file)
+    {
+        string linkPath = Path.Combine(_directory.FullName, file.Name);
+        if (WindowsUtils.IsWindows) CreateShortcut(linkPath + ".lnk", file.FullName);
+        else if (UnixUtils.IsUnix) UnixUtils.CreateSymlink(linkPath, file.FullName);
+    }
+
+    private static unsafe void CreateShortcut(string path, string targetPath)
+    {
+        ShellLink.CreateInstance(out IShellLinkW* shellLink).ThrowOnFailure();
+        IPersistFile* persistFile = null;
+        try
         {
-            _directory = new DirectoryInfo(new[] {Locations.UserCacheDir, "LightTag", "Results", ((UnixTime)DateTime.UtcNow).ToString()}.Aggregate(Path.Combine));
-            _directory.Create();
+            shellLink->SetPath(targetPath);
+            shellLink->QueryInterface(out persistFile).ThrowOnFailure();
+            persistFile->Save(path, fRemember: true);
         }
-
-        public void Show()
+        finally
         {
-            Process.Start(new ProcessStartInfo(_directory.FullName) {UseShellExecute = true});
-        }
-
-        public void Add(FileInfo file)
-        {
-            string linkPath = Path.Combine(_directory.FullName, file.Name);
-            if (WindowsUtils.IsWindows)
-            {
-                var shortcut = (IWshShortcut)_wshShell.CreateShortcut(linkPath + ".lnk");
-                shortcut.TargetPath = file.FullName;
-                shortcut.Save();
-            }
-            else if (UnixUtils.IsUnix) UnixUtils.CreateSymlink(linkPath, file.FullName);
+            if (persistFile != null) persistFile->Release();
+            shellLink->Release();
         }
     }
 }

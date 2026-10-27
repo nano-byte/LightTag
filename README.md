@@ -1,19 +1,18 @@
 # LightTag
 
-[![Download](https://img.shields.io/badge/download-app-blue.svg)](http://nano-byte.de/feeds/LightTag.xml)
-[![Build status](https://img.shields.io/appveyor/ci/nano-byte/lighttag.svg)](https://ci.appveyor.com/project/nano-byte/lighttag)  
+[![Build](https://github.com/nano-byte/LightTag/actions/workflows/build.yml/badge.svg)](https://github.com/nano-byte/LightTag/actions/workflows/build.yml)
+[![Download](https://img.shields.io/badge/download-app-blue.svg)](http://nano-byte.de/feeds/LightTag.xml)  
 A lightweight file tagging tool for Windows.
 
-Uses [NTFS Alternate Data Streams](http://blogs.technet.com/b/askcore/archive/2013/03/24/alternate-data-streams-in-ntfs.aspx) on Windows or Extended File Attributes on Linux.
+Uses [NTFS Alternate Data Streams](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fscc/c54dec26-1551-4d3a-a0ea-4fa40f848eb3) on Windows or Extended File Attributes on Linux.
+
+LightTag requires .NET Framework 4.5 or newer (or Mono on Linux).
 
 ## Building
 
-The source code is in [`src/`](src/) and generated build artifacts are placed in `artifacts/`.  
-There is a template in [`feed/`](feed/) for generating a Zero Install feed from the artifacts. For official releases this is published at: http://nano-byte.de/feeds/LightTag.xml
+The source code is in [`src/`](src/), a template for generating a [Zero Install](https://0install.net/) feed is in [`feed/`](feed/) and generated build artifacts are placed in `artifacts/`. The source code does not contain version numbers. Instead the version is determined during CI using [GitVersion](https://gitversion.net/).
 
-You need [Visual Studio 2017](https://www.visualstudio.com/downloads/) to build this project.
-
-Run `.\build.ps1` in PowerShell to build everything. This script takes a version number as an input argument. The source code itself only contains dummy version numbers. The actual version is picked by continuous integration using [GitVersion](https://gitversion.net/).
+To build install [Visual Studio 2026 v18.0 or newer](https://www.visualstudio.com/downloads/) and run `.\build.ps1`.
 
 ## Contributing
 

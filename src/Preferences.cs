@@ -7,36 +7,23 @@ using System.Text;
 using NanoByte.Common.Collections;
 using NanoByte.Common.Storage;
 
-namespace NanoByte.LightTag
-{
-    public static class Preferences
-    {
-        public static NamedCollection<Tag> KnownTags
-        {
-            get
-            {
-                string configPath = Locations.GetLoadConfigPaths("LightTag", true, "tags.xml").FirstOrDefault();
-                return (configPath == null) ? new NamedCollection<Tag>() : XmlStorage.LoadXml<NamedCollection<Tag>>(configPath);
-            }
-            set
-            {
-                string configPath = Locations.GetSaveConfigPath("LightTag", true, "tags.xml");
-                value.SaveXml(configPath);
-            }
-        }
+namespace NanoByte.LightTag;
 
-        public static string LastSearchDirectory
-        {
-            get
-            {
-                string configPath = Locations.GetLoadConfigPaths("LightTag", true, "search-directory.txt").FirstOrDefault();
-                return (configPath == null) ? null : File.ReadAllText(configPath, Encoding.UTF8);
-            }
-            set
-            {
-                string configPath = Locations.GetSaveConfigPath("LightTag", true, "search-directory.txt");
-                File.WriteAllText(configPath, value, Encoding.UTF8);
-            }
-        }
+public static class Preferences
+{
+    public static NamedCollection<Tag> KnownTags
+    {
+        get => Locations.GetLoadConfigPaths("LightTag", isFile: true, "tags.xml").FirstOrDefault() is {} path
+            ? XmlStorage.LoadXml<NamedCollection<Tag>>(path)
+            : [];
+        set => value.SaveXml(Locations.GetSaveConfigPath("LightTag", isFile: true, "tags.xml"));
+    }
+
+    public static string? LastSearchDirectory
+    {
+        get => Locations.GetLoadConfigPaths("LightTag", isFile: true, "search-directory.txt").FirstOrDefault() is {} path
+            ? File.ReadAllText(path, Encoding.UTF8)
+            : null;
+        set => File.WriteAllText(Locations.GetSaveConfigPath("LightTag", isFile: true, "search-directory.txt"), value, Encoding.UTF8);
     }
 }

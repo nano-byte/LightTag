@@ -1,0 +1,4 @@
+// ResultSet
+ShellLink
+IShellLinkW
+IPersistFile

@@ -7,31 +7,24 @@ using System.Drawing;
 using System.Xml.Serialization;
 using NanoByte.Common;
 
-namespace NanoByte.LightTag
+namespace NanoByte.LightTag;
+
+public class Tag : INamed, IHighlightColor
 {
-    public class Tag : INamed, IHighlightColor
+    [XmlAttribute]
+    public string Name { get; set; } = "";
+
+    [XmlIgnore]
+    public Color HighlightColor { get; set; }
+
+    [XmlAttribute, Browsable(false)]
+    public string Color
     {
-        [XmlAttribute]
-        public string Name { get; set; }
-
-        [XmlIgnore]
-        public Color HighlightColor { get; set; }
-
-        [XmlAttribute, Browsable(false)]
-        public string Color
-        {
-            get => ColorTranslator.ToHtml(HighlightColor);
-            set => HighlightColor = ColorTranslator.FromHtml(value);
-        }
-
-        public override string ToString()
-        {
-            return Name;
-        }
-
-        public int CompareTo(Tag other)
-        {
-            return string.Compare(Name, other.Name, StringComparison.Ordinal);
-        }
+        get => ColorTranslator.ToHtml(HighlightColor);
+        set => HighlightColor = ColorTranslator.FromHtml(value);
     }
+
+    public override string ToString() => Name;
+
+    public int CompareTo(Tag? other) => string.Compare(Name, other?.Name, StringComparison.Ordinal);
 }

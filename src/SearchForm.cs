@@ -11,97 +11,80 @@ using NanoByte.Common.Controls;
 using NanoByte.Common.Storage;
 using NanoByte.Common.Tasks;
 
-namespace NanoByte.LightTag
+namespace NanoByte.LightTag;
+
+public partial class SearchForm : Form
 {
-    public partial class SearchForm : Form
+    public SearchForm()
     {
-        public SearchForm()
+        InitializeComponent();
+        tags.TreeView.CheckedEntriesChanged += tags_TreeView_CheckedEntriesChanged;
+
+        textFolder.Text = Preferences.LastSearchDirectory;
+    }
+
+    private void SearchForm_DragEnter(object sender, DragEventArgs e)
+        => e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
+
+    private void SearchForm_DragDrop(object sender, DragEventArgs e)
+    {
+        if (e.Data.GetData(DataFormats.FileDrop) is not string[] paths) return;
+
+        // Replace "search" dialog with "tagging" dialog
+        var taggingForm = new TaggingForm(paths) {Location = Location, StartPosition = FormStartPosition.Manual};
+        taggingForm.FormClosing += delegate { Close(); };
+        taggingForm.Show();
+        Hide();
+    }
+
+    private void buttonBrowseFolder_Click(object sender, EventArgs e)
+    {
+        folderBrowserDialog.ShowDialog(this);
+        textFolder.Text = folderBrowserDialog.SelectedPath;
+    }
+
+    private void tags_TreeView_CheckedEntriesChanged(object? sender, EventArgs e)
+        => buttonSearch.Enabled = tags.TreeView.CheckedEntries.Count != 0;
+
+    private void buttonSearch_Click(object sender, EventArgs e)
+    {
+        DirectoryInfo searchDirectory;
+        try
         {
-            InitializeComponent();
-            tags.TreeView.CheckedEntriesChanged += tags_TreeView_CheckedEntriesChanged;
-
-            textFolder.Text = Preferences.LastSearchDirectory;
+            searchDirectory = new DirectoryInfo(textFolder.Text);
         }
-
-        private void SearchForm_DragEnter(object sender, DragEventArgs e)
+        #region Error handling
+        catch (ArgumentException ex)
         {
-            e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
+            Msg.Inform(this, ex.Message, MsgSeverity.Error);
+            return;
         }
+        #endregion
 
-        private void SearchForm_DragDrop(object sender, DragEventArgs e)
+        if (!searchDirectory.Exists)
         {
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
-
-            var paths = e.Data.GetData(DataFormats.FileDrop) as string[];
-            if (paths == null) return;
-
-            // Replace "search" dialog with "tagging" dialog
-            var taggingForm = new TaggingForm(paths) {Location = Location, StartPosition = FormStartPosition.Manual};
-            taggingForm.FormClosing += delegate { Close(); };
-            taggingForm.Show();
-            Hide();
+            Msg.Inform(this, "Directory does not exist.", MsgSeverity.Warn);
+            return;
         }
+        Preferences.LastSearchDirectory = searchDirectory.FullName;
 
-        private void buttonBrowseFolder_Click(object sender, EventArgs e)
+        var resultSet = new ResultSet();
+        var checkedTags = tags.TreeView.CheckedEntries.Select(x => x.Name).ToList();
+        try
         {
-            folderBrowserDialog.ShowDialog(this);
-            textFolder.Text = folderBrowserDialog.SelectedPath;
+            new DialogTaskHandler(this).RunTask(new ActionTask("Searching", () =>
+                searchDirectory.Walk(fileAction: file =>
+                {
+                    var fileTags = file.ReadTags().ToList();
+                    if (checkedTags.All(fileTags.Contains)) resultSet.Add(file);
+                })));
+            resultSet.Show();
         }
-
-        private void tags_TreeView_CheckedEntriesChanged(object sender, EventArgs e)
+        #region Error handling
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or Win32Exception)
         {
-            buttonSearch.Enabled = (tags.TreeView.CheckedEntries.Count != 0);
+            Msg.Inform(this, ex.Message, MsgSeverity.Error);
         }
-
-        private void buttonSearch_Click(object sender, EventArgs e)
-        {
-            DirectoryInfo searchDirectory;
-            try
-            {
-                searchDirectory = new DirectoryInfo(textFolder.Text);
-            }
-            #region Error handling
-            catch (ArgumentException ex)
-            {
-                Msg.Inform(this, ex.Message, MsgSeverity.Error);
-                return;
-            }
-            #endregion
-
-            if (!searchDirectory.Exists)
-            {
-                Msg.Inform(this, "Directory does not exist.", MsgSeverity.Warn);
-                return;
-            }
-            Preferences.LastSearchDirectory = searchDirectory.FullName;
-
-            var resultSet = new ResultSet();
-            var checkedTags = tags.TreeView.CheckedEntries.Select(x => x.Name).ToList();
-            try
-            {
-                var handler = new DialogTaskHandler(this);
-                handler.RunTask(new ActionTask("Searching", () =>
-                    searchDirectory.Walk(fileAction: file =>
-                    {
-                        var fileTags = file.ReadTags();
-                        if (checkedTags.All(fileTags.Contains)) resultSet.Add(file);
-                    })));
-                resultSet.Show();
-            }
-                #region Error handling
-            catch (IOException ex)
-            {
-                Msg.Inform(this, ex.Message, MsgSeverity.Error);
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                Msg.Inform(this, ex.Message, MsgSeverity.Error);
-            }
-            catch (Win32Exception ex)
-            {
-                Msg.Inform(this, ex.Message, MsgSeverity.Error);
-            }
-            #endregion
-        }
+        #endregion
     }
 }
