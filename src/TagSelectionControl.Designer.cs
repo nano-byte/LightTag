@@ -36,7 +36,7 @@
             // 
             this.buttonRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonRemove.Enabled = false;
-            this.buttonRemove.Location = new System.Drawing.Point(114, 127);
+            this.buttonRemove.Location = new System.Drawing.Point(127, 127);
             this.buttonRemove.Name = "buttonRemove";
             this.buttonRemove.Size = new System.Drawing.Size(23, 23);
             this.buttonRemove.TabIndex = 2;
@@ -47,7 +47,7 @@
             // buttonAdd
             // 
             this.buttonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonAdd.Location = new System.Drawing.Point(89, 127);
+            this.buttonAdd.Location = new System.Drawing.Point(105, 127);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(23, 23);
             this.buttonAdd.TabIndex = 1;
