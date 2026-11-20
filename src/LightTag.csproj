@@ -14,7 +14,7 @@
 
   <!-- Dependencies -->
   <ItemGroup>
-    <PackageReference Include="NanoByte.Common.WinForms" Version="3.4.0" />
+    <PackageReference Include="NanoByte.Common.WinForms" Version="3.5.1" />
   </ItemGroup>
 
   <!-- Files to include with output -->
